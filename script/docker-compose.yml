@@ -1,0 +1,70 @@
+version: '2.1'
+services:
+  redpanda:
+    command:
+      - redpanda
+      - start
+      - --set redpanda.enable_idempotence=true
+      - --smp
+      - '1'
+      - --reserve-memory
+      - 0M
+      - --overprovisioned
+      - --node-id
+      - '0'
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://redpanda:29092,OUTSIDE://localhost:9092
+    image: docker.vectorized.io/vectorized/redpanda:latest
+    ports:
+      - 9092:9092
+      - 29092:29092
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+  #    environment:
+  #      - MONGO_INITDB_ROOT_USERNAME=admin
+  #      - MONGO_INITDB_ROOT_PASSWORD=password
+  kowl:
+    image: quay.io/cloudhut/kowl:latest
+    restart: on-failure
+    environment:
+      KAFKA_BROKERS: "redpanda:29092"
+    ports:
+      - "8080:8080"
+    entrypoint: ./kowl
+    depends_on:
+      - redpanda
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      #      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      #      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    restart: unless-stopped
+  police-api-reader:
+    image: police-api-reader:latest
+    ports:
+      - "8082:8082"
+    depends_on:
+      - redpanda
+      - mongodb
+    environment:
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: "redpanda:29092"
+      SPRING_PROFILES_ACTIVE: "local"
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/police-event
+  #police-twitter:
+  #  image: police-twitter:latest
+  #  ports:
+  #    - "8083:8083"
+  #  depends_on:
+  #    - redpanda
+  #    - mongodb
+  #  environment:
+  #    SPRING_KAFKA_BOOTSTRAP-SERVERS: "redpanda:29092"
+  #    SPRING_PROFILES_ACTIVE: "local"
+
