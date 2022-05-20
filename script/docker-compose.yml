@@ -17,11 +17,13 @@ services:
       - --advertise-kafka-addr
       - PLAINTEXT://redpanda:29092,OUTSIDE://localhost:9092
     image: docker.vectorized.io/vectorized/redpanda:latest
+    container_name: redpanda
     ports:
       - 9092:9092
       - 29092:29092
   mongodb:
-    image: mongo
+    image: mongo:latest
+    container_name: mongo
     ports:
       - 27017:27017
   #    environment:
@@ -29,6 +31,7 @@ services:
   #      - MONGO_INITDB_ROOT_PASSWORD=password
   kowl:
     image: quay.io/cloudhut/kowl:latest
+    container_name: kowl
     restart: on-failure
     environment:
       KAFKA_BROKERS: "redpanda:29092"
@@ -38,7 +41,8 @@ services:
     depends_on:
       - redpanda
   mongo-express:
-    image: mongo-express
+    image: mongo-express:latest
+    container_name: mongo-express
     ports:
       - 8081:8081
     environment:
@@ -48,6 +52,7 @@ services:
     restart: unless-stopped
   police-api-reader:
     image: police-api-reader:latest
+    container_name: police-api-reader
     ports:
       - "8082:8082"
     depends_on:
@@ -59,6 +64,7 @@ services:
       SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/police-event
   #police-twitter:
   #  image: police-twitter:latest
+  #  container_name: police-twitter
   #  ports:
   #    - "8083:8083"
   #  depends_on:
