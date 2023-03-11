@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.harbil.policeapireader.kafka.EventProducerTestData.getPoliceEvents;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,11 +25,14 @@ class EventProducerTest {
     private PoliceEventKafkaModelMapper policeEventKafkaModelMapper;
     @Mock
     private KafkaTemplate<String, String> kafkaTemplate;
+    @Mock
+    private ObjectMapper objectMapper;
     private EventProducer eventProducer;
 
     @BeforeEach
     void setup() {
-        eventProducer = new EventProducer(kafkaTemplate, policeEventKafkaModelMapper, "topic");
+        eventProducer = new EventProducer(kafkaTemplate, policeEventKafkaModelMapper, "topic",
+            objectMapper);
     }
 
     @AfterEach

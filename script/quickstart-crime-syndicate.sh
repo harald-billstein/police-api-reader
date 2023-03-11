@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-bold=`tput bold`
-green=`tput setaf 2`
-blue=`tput setaf 4`
-reset=`tput sgr0`
+bold=$(tput bold)
+green=$(tput setaf 2)
+blue=$(tput setaf 4)
+reset=$(tput sgr0)
 
 
 cd ..
@@ -21,7 +21,7 @@ else
     git clone https://github.com/harald-billstein/police-api-reader.git
 fi
 
-cd police-api-reader
+cd police-api-reader || exit
 git pull
 ./mvnw clean install
 docker build -f ./Dockerfile -t police-api-reader:latest .
