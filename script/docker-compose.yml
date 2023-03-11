@@ -1,4 +1,8 @@
-version: '2.1'
+version: '3'
+
+volumes:
+  mongodb-volume:
+
 services:
   redpanda:
     command:
@@ -27,10 +31,11 @@ services:
     container_name: mongo
     ports:
       - 27017:27017
+    volumes:
+      - mongodb-volume:/data/db
     environment:
-      -  MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      -  MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-      -  MONGO_INITDB_DATABASE=police-event
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
 
   kowl:
     image: quay.io/cloudhut/kowl:latest
@@ -70,15 +75,3 @@ services:
       POLICE_API_URL: https://polisen.se/api/events
       POLICE_EXTENDED_BASE_URL: https://polisen.se
       KAFKA_EVENT_TOPIC: police-event
-  #police-twitter:
-  #  image: police-twitter:latest
-  #  container_name: police-twitter
-  #  ports:
-  #    - "8083:8083"
-  #  depends_on:
-  #    - redpanda
-  #    - mongodb
-  #  environment:
-  #    SPRING_KAFKA_BOOTSTRAP-SERVERS: "redpanda:29092"
-  #    SPRING_PROFILES_ACTIVE: "local"
-
