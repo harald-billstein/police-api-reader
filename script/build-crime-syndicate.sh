@@ -46,5 +46,5 @@ docker build -f ./Dockerfile -t police-api-reader:latest .
 #./mvnw clean install
 #docker build -f ./Dockerfile -t police-twitter:latest .
 
-docker-compose -p crime-syndicate -f ../police-api-reader/script/docker-compose.yml up -d
+#docker-compose -p crime-syndicate -f ../police-api-reader/script/docker-compose.yml up -d
 
