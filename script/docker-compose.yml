@@ -1,8 +1,5 @@
 version: '3'
 
-volumes:
-  mongodb-volume:
-
 services:
   redpanda:
     command:
@@ -31,8 +28,6 @@ services:
     container_name: mongo
     ports:
       - 27017:27017
-    volumes:
-      - mongodb-volume:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -88,7 +83,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP-SERVERS: "redpanda:29092"
       SPRING_DATA_MONGODB_URI: mongodb://admin:password@mongodb:27017/twitter-bot?authSource=admin
       SPRING.DATA.MONGODB.DATABASE: twitter-bot
-      twitterConsumerKey: teO0jlSoJPFUBO1Tj19kXLpiK
-      twitterConsumerSecret: GvCEFFow0mW6j2UZiMDog6njHhxbOIsHfxYTCnt8WZxAYAWx73
-      twitterAccessToken: 1193683439792377860-qCUQronUCiGFmr5qLD5dCn0pwfbIgo
-      twitterTokenSecret: oP4cGxteUyoW1tCUNLeilJU8B1F3xvcXqgOEUioGfbGez
+      twitterConsumerKey:
+      twitterConsumerSecret:
+      twitterAccessToken:
+      twitterTokenSecret:
