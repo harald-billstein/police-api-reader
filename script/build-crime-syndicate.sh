@@ -43,5 +43,10 @@ git pull
 ./mvnw clean install
 docker build -f ./Dockerfile -t police-twitter:latest .
 
+docker volume create redpandadata
+docker volume create mongodata
+
+
+
 #docker-compose -p crime-syndicate -f ../police-api-reader/script/docker-compose.yml up -d
 

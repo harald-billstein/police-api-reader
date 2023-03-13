@@ -22,12 +22,17 @@ services:
     ports:
       - 9092:9092
       - 29092:29092
+    volumes:
+      - redpandadata:/var/lib/redpanda/data
 
   mongodb:
     image: mongo:latest
     container_name: mongo
     ports:
       - 27017:27017
+    volumes:
+      - mongodata:/data/db
+      - mongodata:/data/configdb
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -49,6 +54,8 @@ services:
     container_name: mongo-express
     ports:
       - 8081:8081
+    depends_on:
+      - mongodb
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
@@ -91,3 +98,10 @@ services:
       twitterConsumerSecret: xxx
       twitterAccessToken: xxx
       twitterTokenSecret: xxx
+volumes:
+  mongodata:
+    external: true
+  redpandadata:
+    external: true
+
+
