@@ -75,3 +75,20 @@ services:
       POLICE_API_URL: https://polisen.se/api/events
       POLICE_EXTENDED_BASE_URL: https://polisen.se
       KAFKA_EVENT_TOPIC: police-event
+
+  police-twitter:
+    image: police-twitter:latest
+    container_name: police-twitter
+    ports:
+      - "8083:8083"
+    depends_on:
+      - redpanda
+      - mongodb
+    environment:
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: "redpanda:29092"
+      SPRING_DATA_MONGODB_URI: mongodb://admin:password@mongodb:27017/twitter-bot?authSource=admin
+      SPRING.DATA.MONGODB.DATABASE: twitter-bot
+      twitterConsumerKey: teO0jlSoJPFUBO1Tj19kXLpiK
+      twitterConsumerSecret: GvCEFFow0mW6j2UZiMDog6njHhxbOIsHfxYTCnt8WZxAYAWx73
+      twitterAccessToken: 1193683439792377860-qCUQronUCiGFmr5qLD5dCn0pwfbIgo
+      twitterTokenSecret: oP4cGxteUyoW1tCUNLeilJU8B1F3xvcXqgOEUioGfbGez

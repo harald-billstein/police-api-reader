@@ -27,24 +27,21 @@ git pull
 docker build -f ./Dockerfile -t police-api-reader:latest .
 
 
-#cd ..
-#echo -e "${green}***********************************************************"
-#echo -e "*${blue} ${bold}                 police-twitter                         ${green}*"
-#echo -e "***********************************************************${reset}"
-
-
-#if [ -d "police-twitter" ]
-#then
-#    echo "police-twitter exists."
-#else
-#    echo "police-twitter does not exists, cloning..."
-#fi
-
-
-#cd police-twitter
-#git pull
-#./mvnw clean install
-#docker build -f ./Dockerfile -t police-twitter:latest .
+cd ..
+echo -e "${green}***********************************************************"
+echo -e "*${blue} ${bold}                 police-twitter                         ${green}*"
+echo -e "***********************************************************${reset}"
+if [ -d "police-twitter" ]
+then
+    echo "police-twitter exists."
+else
+    echo "police-twitter does not exists, cloning..."
+    git clone https://github.com/harald-billstein/police-twitter.git
+fi
+cd police-twitter || exit
+git pull
+./mvnw clean install
+docker build -f ./Dockerfile -t police-twitter:latest .
 
 #docker-compose -p crime-syndicate -f ../police-api-reader/script/docker-compose.yml up -d
 

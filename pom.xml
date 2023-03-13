@@ -9,13 +9,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.harbil</groupId>
-	<artifactId>police-api-reader </artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>police-api-reader</artifactId>
+	<version>0.0.1</version>
 	<name>police-api-reader </name>
 	<description>read messages from swedish police api and puts on kafka queue</description>
 	<properties>
 		<java.version>17</java.version>
-		<jsoup.version>1.14.3</jsoup.version>
+		<jsoup.version>1.15.3</jsoup.version>
 		<mockito-inline.version>4.5.1</mockito-inline.version>
 	</properties>
 
