@@ -24,9 +24,7 @@ public class PoliceEventModel {
     @Id
     @EqualsAndHashCode.Exclude
     private String dbId;
-    @EqualsAndHashCode.Exclude
     private LocalDateTime fetchedDateTime;
-
     @EqualsAndHashCode.Exclude
     @Setter
     private String extendedInfo;
