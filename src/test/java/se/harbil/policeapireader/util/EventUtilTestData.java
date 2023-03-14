@@ -19,7 +19,7 @@ public class EventUtilTestData {
             .locationGps("locationGps")
             .locationName("locationName")
             .dbId("dbId")
-            .id(1L)
+            .id(3L)
             .url("url")
             .fetchedDateTime(LocalDateTime.now())
             .build();
