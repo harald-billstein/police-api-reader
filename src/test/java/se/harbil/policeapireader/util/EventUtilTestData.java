@@ -7,6 +7,8 @@ import se.harbil.policeapireader.model.PoliceEventModel;
 
 public class EventUtilTestData {
 
+    private final static LocalDateTime localDateTime = LocalDateTime.now();
+
     public static List<PoliceEventModel> oneEvent() {
         List<PoliceEventModel> events = new ArrayList<>();
         PoliceEventModel event = PoliceEventModel.builder()
@@ -20,7 +22,7 @@ public class EventUtilTestData {
             .dbId("dbId")
             .id(1L)
             .url("url")
-            .fetchedDateTime(LocalDateTime.now())
+            .fetchedDateTime(localDateTime)
             .build();
 
         events.add(event);
@@ -40,7 +42,7 @@ public class EventUtilTestData {
             .dbId("dbId1")
             .id(1L)
             .url("url1")
-            .fetchedDateTime(LocalDateTime.now())
+            .fetchedDateTime(localDateTime)
             .build();
         PoliceEventModel event2 = PoliceEventModel.builder()
             .extendedInfo("extraInfo2")
@@ -53,7 +55,7 @@ public class EventUtilTestData {
             .dbId("dbId2")
             .id(2L)
             .url("url2")
-            .fetchedDateTime(LocalDateTime.now())
+            .fetchedDateTime(localDateTime)
             .build();
 
         events.add(event1);
@@ -74,7 +76,7 @@ public class EventUtilTestData {
             .dbId("dbId1")
             .id(1L)
             .url("url1")
-            .fetchedDateTime(LocalDateTime.now())
+            .fetchedDateTime(localDateTime)
             .build();
 
         PoliceEventModel event2 = PoliceEventModel.builder()
@@ -88,7 +90,7 @@ public class EventUtilTestData {
             .dbId("dbId2")
             .id(2L)
             .url("url2")
-            .fetchedDateTime(LocalDateTime.now())
+            .fetchedDateTime(localDateTime)
             .build();
 
         PoliceEventModel event3 = PoliceEventModel.builder()
@@ -102,7 +104,7 @@ public class EventUtilTestData {
             .dbId("dbId3")
             .id(3L)
             .url("url3")
-            .fetchedDateTime(LocalDateTime.now())
+            .fetchedDateTime(localDateTime)
             .build();
 
         events.add(event1);
