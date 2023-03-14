@@ -6,6 +6,7 @@ import static se.harbil.policeapireader.util.EventUtilTestData.oneEvent;
 import static se.harbil.policeapireader.util.EventUtilTestData.threeEvents;
 import static se.harbil.policeapireader.util.EventUtilTestData.twoEvents;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

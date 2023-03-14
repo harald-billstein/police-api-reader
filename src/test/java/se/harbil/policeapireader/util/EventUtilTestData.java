@@ -7,7 +7,6 @@ import se.harbil.policeapireader.model.PoliceEventModel;
 
 public class EventUtilTestData {
 
-    private final static LocalDateTime localDateTime = LocalDateTime.now();
 
     public static List<PoliceEventModel> oneEvent() {
         List<PoliceEventModel> events = new ArrayList<>();
@@ -22,7 +21,7 @@ public class EventUtilTestData {
             .dbId("dbId")
             .id(1L)
             .url("url")
-            .fetchedDateTime(localDateTime)
+            .fetchedDateTime(LocalDateTime.now())
             .build();
 
         events.add(event);
@@ -42,7 +41,7 @@ public class EventUtilTestData {
             .dbId("dbId1")
             .id(1L)
             .url("url1")
-            .fetchedDateTime(localDateTime)
+            .fetchedDateTime(LocalDateTime.now())
             .build();
         PoliceEventModel event2 = PoliceEventModel.builder()
             .extendedInfo("extraInfo2")
@@ -55,7 +54,7 @@ public class EventUtilTestData {
             .dbId("dbId2")
             .id(2L)
             .url("url2")
-            .fetchedDateTime(localDateTime)
+            .fetchedDateTime(LocalDateTime.now())
             .build();
 
         events.add(event1);
@@ -76,7 +75,7 @@ public class EventUtilTestData {
             .dbId("dbId1")
             .id(1L)
             .url("url1")
-            .fetchedDateTime(localDateTime)
+            .fetchedDateTime(LocalDateTime.now())
             .build();
 
         PoliceEventModel event2 = PoliceEventModel.builder()
@@ -90,7 +89,7 @@ public class EventUtilTestData {
             .dbId("dbId2")
             .id(2L)
             .url("url2")
-            .fetchedDateTime(localDateTime)
+            .fetchedDateTime(LocalDateTime.now())
             .build();
 
         PoliceEventModel event3 = PoliceEventModel.builder()
@@ -104,7 +103,7 @@ public class EventUtilTestData {
             .dbId("dbId3")
             .id(3L)
             .url("url3")
-            .fetchedDateTime(localDateTime)
+            .fetchedDateTime(LocalDateTime.now())
             .build();
 
         events.add(event1);
