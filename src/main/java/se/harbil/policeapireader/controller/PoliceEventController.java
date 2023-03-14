@@ -37,7 +37,7 @@ public class PoliceEventController {
         log.info("Trying to fetch police events");
         try {
             List<PoliceEventModel> newPoliceEvents = policeEventService.call();
-            List<PoliceEventModel> localDataBaseEvents = policeEventRepositoryService.find500LastDocument();
+            List<PoliceEventModel> localDataBaseEvents = policeEventRepositoryService.findAll();
 
             List<PoliceEventModel> unsavedPoliceEvents = eventUtil.checkIfThereAnyNewEvents(
                 newPoliceEvents,

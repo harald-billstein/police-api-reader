@@ -25,8 +25,12 @@ public class PoliceEventModel {
   @Setter
   private String extendedInfo;
 
-  @Override
+
   public boolean equals(Object obj) {
-    return ((PoliceEventModel) obj).summary.equalsIgnoreCase(this.getSummary());
+    if (obj instanceof PoliceEventModel policeEventModel) {
+      return policeEventModel.id.equals(this.getId());
+    } else {
+      return false;
+    }
   }
 }

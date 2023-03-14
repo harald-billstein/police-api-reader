@@ -17,10 +17,10 @@ public class PoliceEventRepositoryService {
         this.policeEventRepository = policeEventRepository;
     }
 
-    public List<PoliceEventModel> find500LastDocument() {
+    public List<PoliceEventModel> findAll() {
         log.info("Trying to find all events in db");
         try {
-            List<PoliceEventModel> allPoliceEvents = policeEventRepository.findTop500ByOrderByFetchedDateTimeDesc();
+            List<PoliceEventModel> allPoliceEvents = policeEventRepository.findAll();
 
             log.info("Successfully found: {} events in db", allPoliceEvents.size());
             return allPoliceEvents;

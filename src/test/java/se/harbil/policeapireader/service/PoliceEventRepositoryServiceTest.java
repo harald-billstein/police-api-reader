@@ -36,26 +36,26 @@ class PoliceEventRepositoryServiceTest {
         reset(policeEventRepository);
     }
 
-    @Test
+    @Test // TODO fix test
     void testFind500LastDocuments() {
-        when(policeEventRepository.findTop500ByOrderByFetchedDateTimeDesc()).thenReturn(
+        when(policeEventRepository.findAll()).thenReturn(
             policeEvents());
 
-        List<PoliceEventModel> documents = policeEventRepositoryService.find500LastDocument();
+        List<PoliceEventModel> documents = policeEventRepositoryService.findAll();
 
         assertFalse(documents.isEmpty());
     }
 
-    @Test
+    @Test //TODO fix test
     void testFind500LastDocumentsThrowsException() {
-        when(policeEventRepository.findTop500ByOrderByFetchedDateTimeDesc())
+        when(policeEventRepository.findAll())
             .thenThrow(new RuntimeException());
 
         assertThrows(RepositoryException.class,
-            () -> policeEventRepositoryService.find500LastDocument());
+            () -> policeEventRepositoryService.findAll());
     }
 
-    @Test
+    @Test //TODO fix test
     void testSaveAllDocuments() {
         when(policeEventRepository.saveAll(any())).thenReturn(policeEvents());
 

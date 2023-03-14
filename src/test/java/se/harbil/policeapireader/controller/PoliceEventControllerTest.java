@@ -50,7 +50,7 @@ class PoliceEventControllerTest {
     @Test
     void testFetchPoliceEvents() {
         when(policeEventService.call()).thenReturn(getPoliceEvents());
-        when(policeEventRepositoryService.find500LastDocument()).thenReturn(getPoliceEvents());
+        when(policeEventRepositoryService.findAll()).thenReturn(getPoliceEvents());
         when(eventUtil.checkIfThereAnyNewEvents(any(), any())).thenReturn(getPoliceEvents());
         when(policeEventExtendedInfoService.call(any())).thenReturn(getPoliceEventsWithExtraInfo());
         when(policeEventRepositoryService.saveAll(any())).thenReturn(
@@ -68,7 +68,7 @@ class PoliceEventControllerTest {
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(0)).find500LastDocument();
+        verify(policeEventRepositoryService, times(0)).findAll();
         verify(eventUtil, times(0)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(0)).call(any());
         verify(policeEventRepositoryService, times(0)).saveAll(any());
@@ -77,12 +77,12 @@ class PoliceEventControllerTest {
 
     @Test
     void testCallToDbThrowsException() {
-        when(policeEventRepositoryService.find500LastDocument()).thenThrow(new RuntimeException());
+        when(policeEventRepositoryService.findAll()).thenThrow(new RuntimeException());
 
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(1)).find500LastDocument();
+        verify(policeEventRepositoryService, times(1)).findAll();
         verify(eventUtil, times(0)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(0)).call(any());
         verify(policeEventRepositoryService, times(0)).saveAll(any());
@@ -96,7 +96,7 @@ class PoliceEventControllerTest {
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(1)).find500LastDocument();
+        verify(policeEventRepositoryService, times(1)).findAll();
         verify(eventUtil, times(1)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(0)).call(any());
         verify(policeEventRepositoryService, times(0)).saveAll(any());
@@ -110,7 +110,7 @@ class PoliceEventControllerTest {
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(1)).find500LastDocument();
+        verify(policeEventRepositoryService, times(1)).findAll();
         verify(eventUtil, times(1)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(1)).call(any());
         verify(policeEventRepositoryService, times(0)).saveAll(any());
@@ -124,7 +124,7 @@ class PoliceEventControllerTest {
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(1)).find500LastDocument();
+        verify(policeEventRepositoryService, times(1)).findAll();
         verify(eventUtil, times(1)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(1)).call(any());
         verify(policeEventRepositoryService, times(1)).saveAll(any());
