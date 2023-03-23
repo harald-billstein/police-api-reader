@@ -23,7 +23,7 @@ public class PoliceEventModelMapperTestData {
         String NAME = "name";
         String SUMMARY = "summary";
         String TYPE = "type";
-        String URL = "url";
+        String URL = "/url";
         PoliceEventResponse policeEventResponse = new PoliceEventResponse(DATE_TIME, ID, location,
             NAME,
             SUMMARY, TYPE, URL);

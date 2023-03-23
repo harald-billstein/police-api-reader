@@ -31,7 +31,7 @@ class PoliceEventKafkaModelMapperTest {
 
     @Test
     void testMapPoliceEventModelToPoliceEventKafkaModelThrowsException() {
-        PoliceEventModelMapper mapper = new PoliceEventModelMapper();
+        PoliceEventModelMapper mapper = new PoliceEventModelMapper("baseUrlForExtendedInfo");
 
         assertThrows(NullPointerException.class,
             () -> mapper.map(policeEventResponsesWithNullValues()));

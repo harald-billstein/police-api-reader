@@ -16,7 +16,7 @@ class PoliceEventModelMapperTest {
 
     @Test
     void testMapPoliceEventResponseToPoliceEventModel() {
-        PoliceEventModelMapper mapper = new PoliceEventModelMapper();
+        PoliceEventModelMapper mapper = new PoliceEventModelMapper("baseUrlForExtendedInfo");
 
         List<PoliceEventModel> policeEventModels = mapper.map(policeEventResponse());
 
@@ -29,12 +29,12 @@ class PoliceEventModelMapperTest {
             () -> assertEquals(policeEventModels.get(0).getDatetime(), "dateTime"),
             () -> assertEquals(policeEventModels.get(0).getLocationGps(), "locationGps"),
             () -> assertEquals(policeEventModels.get(0).getLocationName(), "locationName"),
-            () -> assertEquals(policeEventModels.get(0).getUrl(), "url"));
+            () -> assertEquals(policeEventModels.get(0).getUrl(), "baseUrlForExtendedInfo/url"));
     }
 
     @Test
     void testMapPoliceEventResponseToPoliceEventModelThrowsException() {
-        PoliceEventModelMapper mapper = new PoliceEventModelMapper();
+        PoliceEventModelMapper mapper = new PoliceEventModelMapper("baseUrlForExtendedInfo");
 
         assertThrows(NullPointerException.class,
             () -> mapper.map(policeEventResponsesWithNullValues()));
