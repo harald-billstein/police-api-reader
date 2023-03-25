@@ -17,6 +17,6 @@ public class PoliceEventExtendedInfoClient {
     }
 
     public Document call(String path) throws IOException {
-        return Jsoup.connect(extendedInfoBaseUrl + path).get();
+        return Jsoup.connect(path).get();
     }
 }
