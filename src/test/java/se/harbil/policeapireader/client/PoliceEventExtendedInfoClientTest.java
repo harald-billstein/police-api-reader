@@ -47,7 +47,7 @@ class PoliceEventExtendedInfoClientTest {
             Document document = new Document(BASE_URL + PATH);
 
             when(connection.get()).thenReturn(document);
-            jsoupMockedStatic.when(() -> Jsoup.connect(BASE_URL + PATH)).thenReturn(connection);
+            jsoupMockedStatic.when(() -> Jsoup.connect(PATH)).thenReturn(connection);
 
             Document doc = policeEventExtendedInfoClient.call(PATH);
 
