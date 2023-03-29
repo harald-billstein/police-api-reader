@@ -34,7 +34,7 @@ public class PoliceEventController {
         this.eventProducer = eventProducer;
     }
 
-    @Scheduled(initialDelay = 60000, fixedRate = 60000)
+    @Scheduled(initialDelay = 60000, fixedRate = 600000)
     public void fetchPoliceEvents() {
         log.info("Trying to fetch police events");
         try {
