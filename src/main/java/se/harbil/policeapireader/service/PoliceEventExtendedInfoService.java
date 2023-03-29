@@ -1,12 +1,13 @@
 package se.harbil.policeapireader.service;
 
-import java.io.IOException;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 import se.harbil.policeapireader.client.PoliceEventExtendedInfoClient;
 import se.harbil.policeapireader.model.PoliceEventModel;
+
+import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -15,7 +16,7 @@ public class PoliceEventExtendedInfoService {
     private final PoliceEventExtendedInfoClient policeEventExtendedInfoClient;
 
     public PoliceEventExtendedInfoService(
-        PoliceEventExtendedInfoClient policeEventExtendedInfoClient) {
+            PoliceEventExtendedInfoClient policeEventExtendedInfoClient) {
         this.policeEventExtendedInfoClient = policeEventExtendedInfoClient;
     }
 
@@ -26,7 +27,7 @@ public class PoliceEventExtendedInfoService {
                 event.setExtendedInfo(response);
             } catch (Exception e) {
                 log.warn("Failed to get extended info for: {} got error: {}", event.getUrl(),
-                    e.getMessage());
+                        e.getMessage());
             }
         });
 
@@ -39,8 +40,8 @@ public class PoliceEventExtendedInfoService {
         Document response = policeEventExtendedInfoClient.call(path);
 
         List<String> eachText = response.body()
-            .getElementsByClass("text-body editorial-html")
-            .eachText();
+                .getElementsByClass("text-body editorial-html")
+                .eachText();
 
         String textBody = String.join(", ", eachText);
         log.info("Successfully got extended info for: {}", path);

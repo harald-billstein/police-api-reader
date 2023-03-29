@@ -1,15 +1,16 @@
 package se.harbil.policeapireader.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import se.harbil.policeapireader.model.PoliceEventModel;
+
+import java.util.List;
 
 public class PoliceEventRepositoryServiceTestData {
 
     public static List<PoliceEventModel> policeEvents() {
-        List<PoliceEventModel> events = new ArrayList<>();
-        events.add(PoliceEventModel.builder().build());
-        return events;
+        return List.of(PoliceEventModel.builder().build());
     }
 
+    public static PoliceEventModel policeEvent() {
+        return PoliceEventModel.builder().build();
+    }
 }

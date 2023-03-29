@@ -1,16 +1,5 @@
 package se.harbil.policeapireader.client;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
-import static se.harbil.policeapireader.client.PoliceEventExtendedInfoClientTestData.BASE_URL;
-import static se.harbil.policeapireader.client.PoliceEventExtendedInfoClientTestData.PATH;
-
-import java.io.IOException;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,6 +10,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
+import static se.harbil.policeapireader.client.PoliceEventExtendedInfoClientTestData.BASE_URL;
+import static se.harbil.policeapireader.client.PoliceEventExtendedInfoClientTestData.PATH;
 
 @ExtendWith({MockitoExtension.class})
 class PoliceEventExtendedInfoClientTest {
@@ -33,7 +34,7 @@ class PoliceEventExtendedInfoClientTest {
 
     @BeforeEach
     void setup() {
-        policeEventExtendedInfoClient = new PoliceEventExtendedInfoClient(BASE_URL);
+        policeEventExtendedInfoClient = new PoliceEventExtendedInfoClient();
     }
 
     @AfterEach

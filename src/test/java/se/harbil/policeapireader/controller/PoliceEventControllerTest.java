@@ -1,13 +1,5 @@
 package se.harbil.policeapireader.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.harbil.policeapireader.controller.PoliceEventControllerTestData.getPoliceEvents;
-import static se.harbil.policeapireader.controller.PoliceEventControllerTestData.getPoliceEventsWithExtraInfo;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +11,15 @@ import se.harbil.policeapireader.service.PoliceEventExtendedInfoService;
 import se.harbil.policeapireader.service.PoliceEventRepositoryService;
 import se.harbil.policeapireader.service.PoliceEventService;
 import se.harbil.policeapireader.util.EventUtil;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.harbil.policeapireader.controller.PoliceEventControllerTestData.getPoliceEvent;
+import static se.harbil.policeapireader.controller.PoliceEventControllerTestData.getPoliceEvents;
+import static se.harbil.policeapireader.controller.PoliceEventControllerTestData.getPoliceEventsWithExtraInfo;
 
 @ExtendWith(MockitoExtension.class)
 class PoliceEventControllerTest {
@@ -38,23 +39,23 @@ class PoliceEventControllerTest {
     @BeforeEach
     void setup() {
         policeEventController = new PoliceEventController(policeEventService,
-            policeEventRepositoryService, eventUtil, policeEventExtendedInfoService, eventProducer);
+                policeEventRepositoryService, eventUtil, policeEventExtendedInfoService, eventProducer);
     }
 
     @AfterEach
     void teardown() {
         reset(policeEventService, policeEventRepositoryService, eventUtil,
-            policeEventExtendedInfoService, eventProducer);
+                policeEventExtendedInfoService, eventProducer);
     }
 
     @Test
     void testFetchPoliceEvents() {
         when(policeEventService.call()).thenReturn(getPoliceEvents());
-        when(policeEventRepositoryService.findAll()).thenReturn(getPoliceEvents());
+        when(policeEventRepositoryService.findLatestEvent()).thenReturn(getPoliceEvent());
         when(eventUtil.checkIfThereAnyNewEvents(any(), any())).thenReturn(getPoliceEvents());
         when(policeEventExtendedInfoService.call(any())).thenReturn(getPoliceEventsWithExtraInfo());
         when(policeEventRepositoryService.saveAll(any())).thenReturn(
-            getPoliceEventsWithExtraInfo());
+                getPoliceEventsWithExtraInfo());
 
         policeEventController.fetchPoliceEvents();
 
@@ -68,7 +69,7 @@ class PoliceEventControllerTest {
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(0)).findAll();
+        verify(policeEventRepositoryService, times(0)).findLatestEvent();
         verify(eventUtil, times(0)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(0)).call(any());
         verify(policeEventRepositoryService, times(0)).saveAll(any());
@@ -77,12 +78,12 @@ class PoliceEventControllerTest {
 
     @Test
     void testCallToDbThrowsException() {
-        when(policeEventRepositoryService.findAll()).thenThrow(new RuntimeException());
+        when(policeEventRepositoryService.findLatestEvent()).thenThrow(new RuntimeException());
 
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(1)).findAll();
+        verify(policeEventRepositoryService, times(1)).findLatestEvent();
         verify(eventUtil, times(0)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(0)).call(any());
         verify(policeEventRepositoryService, times(0)).saveAll(any());
@@ -96,7 +97,7 @@ class PoliceEventControllerTest {
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(1)).findAll();
+        verify(policeEventRepositoryService, times(1)).findLatestEvent();
         verify(eventUtil, times(1)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(0)).call(any());
         verify(policeEventRepositoryService, times(0)).saveAll(any());
@@ -110,7 +111,7 @@ class PoliceEventControllerTest {
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(1)).findAll();
+        verify(policeEventRepositoryService, times(1)).findLatestEvent();
         verify(eventUtil, times(1)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(1)).call(any());
         verify(policeEventRepositoryService, times(0)).saveAll(any());
@@ -124,12 +125,10 @@ class PoliceEventControllerTest {
         policeEventController.fetchPoliceEvents();
 
         verify(policeEventService, times(1)).call();
-        verify(policeEventRepositoryService, times(1)).findAll();
+        verify(policeEventRepositoryService, times(1)).findLatestEvent();
         verify(eventUtil, times(1)).checkIfThereAnyNewEvents(any(), any());
         verify(policeEventExtendedInfoService, times(1)).call(any());
         verify(policeEventRepositoryService, times(1)).saveAll(any());
         verify(eventProducer, times(0)).sendEvents(any());
     }
-
-
 }

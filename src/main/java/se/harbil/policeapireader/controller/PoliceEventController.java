@@ -1,6 +1,8 @@
 package se.harbil.policeapireader.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -37,11 +39,11 @@ public class PoliceEventController {
         log.info("Trying to fetch police events");
         try {
             List<PoliceEventModel> newPoliceEvents = policeEventService.call();
-            List<PoliceEventModel> localDataBaseEvents = policeEventRepositoryService.findAll();
+            Optional<PoliceEventModel> latestSavedEvent = policeEventRepositoryService.findLatestEvent();
 
             List<PoliceEventModel> unsavedPoliceEvents = eventUtil.checkIfThereAnyNewEvents(
                 newPoliceEvents,
-                localDataBaseEvents);
+                    latestSavedEvent);
             List<PoliceEventModel> eventModelsWithExtendedInfo = policeEventExtendedInfoService.call(
                 unsavedPoliceEvents);
 
