@@ -39,11 +39,10 @@ public class PoliceEventController {
         log.info("Trying to fetch police events");
         try {
             List<PoliceEventModel> newPoliceEvents = policeEventService.call();
-            Optional<PoliceEventModel> latestSavedEvent = policeEventRepositoryService.findLatestEvent();
 
             List<PoliceEventModel> unsavedPoliceEvents = eventUtil.checkIfThereAnyNewEvents(
-                newPoliceEvents,
-                    latestSavedEvent);
+                newPoliceEvents);
+
             List<PoliceEventModel> eventModelsWithExtendedInfo = policeEventExtendedInfoService.call(
                 unsavedPoliceEvents);
 

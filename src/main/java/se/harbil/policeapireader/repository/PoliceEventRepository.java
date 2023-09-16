@@ -6,4 +6,6 @@ import se.harbil.policeapireader.model.PoliceEventModel;
 public interface PoliceEventRepository extends MongoRepository<PoliceEventModel, String> {
 
     PoliceEventModel findTopByOrderByIdDesc();
+
+    boolean existsByIdAndDatetime(long id, String dateTime);
 }
