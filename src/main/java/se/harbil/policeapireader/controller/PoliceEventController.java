@@ -48,7 +48,7 @@ public class PoliceEventController {
             log.info("Successfully fetched {} police events and saved {} new events in DB",
                 newPoliceEvents.size(), savedPoliceEvents.size());
         } catch (Exception e) {
-            log.warn("Failed to fetch police events", e);
+            log.warn("Failed to fetch police events, error: {} ", e.getMessage());
         }
     }
 }
