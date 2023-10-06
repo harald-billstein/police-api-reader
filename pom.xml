@@ -16,6 +16,9 @@
 	<properties>
 		<java.version>17</java.version>
 		<jsoup.version>1.15.4</jsoup.version>
+		<checkstyle.version>3.2.1</checkstyle.version>
+		<error-prone.version>2.18.0</error-prone.version>
+		<null-away.version>0.10.10</null-away.version>
 		<mockito-inline.version>4.5.1</mockito-inline.version>
 	</properties>
 
@@ -75,4 +78,96 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>code-quality</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<version>${checkstyle.version}</version>
+						<configuration>
+							<configLocation>config/checkstyle/checkstyle.xml</configLocation>
+							<consoleOutput>true</consoleOutput>
+							<failsOnError>true</failsOnError>
+							<violationSeverity>warning</violationSeverity> <!-- Treat warnings as error -->
+							<linkXRef>false</linkXRef>
+						</configuration>
+						<executions>
+							<execution>
+								<id>validate</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven-compiler-plugin.version}</version>
+						<executions>
+							<!-- Skip the default-compile execution as we don't want to execute the compile goal twice -->
+							<execution>
+								<id>default-compile</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+								<configuration>
+									<skipMain>true</skipMain>
+								</configuration>
+							</execution>
+							<execution>
+								<id>error-prone-compile</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+								<configuration>
+									<failOnError>false</failOnError>
+									<source>${java.version}</source>
+									<target>${java.version}</target>
+									<release>${java.version}</release>
+									<showWarnings>true</showWarnings>
+									<compilerArgs>
+										<arg>-XDcompilePolicy=simple</arg>
+										<arg>-Xplugin:ErrorProne \
+											-XepDisableWarningsInGeneratedCode \
+											-Xep:MissingSummary:OFF \
+											-Xep:EqualsGetClass:OFF \
+											-Xep:JavaTimeDefaultTimeZone:OFF \
+											-Xep:NullAway:OFF \
+											-XepOpt:NullAway:AnnotatedPackages=se.folksam.aml \
+											-XepExcludedPaths:.*/target/generated-sources/.*
+										</arg>
+									</compilerArgs>
+									<annotationProcessorPaths>
+										<path>
+											<groupId>com.google.errorprone</groupId>
+											<artifactId>error_prone_core</artifactId>
+											<version>${error-prone.version}</version>
+										</path>
+										<path>
+											<groupId>org.projectlombok</groupId>
+											<artifactId>lombok</artifactId>
+											<version>${lombok.version}</version>
+										</path>
+										<!-- https://github.com/uber/NullAway/wiki/Configuration#maven -->
+										<path>
+											<groupId>com.uber.nullaway</groupId>
+											<artifactId>nullaway</artifactId>
+											<version>${null-away.version}</version>
+										</path>
+									</annotationProcessorPaths>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

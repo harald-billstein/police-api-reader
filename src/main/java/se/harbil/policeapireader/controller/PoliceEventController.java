@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import se.harbil.policeapireader.kafka.EventProducer;
 import se.harbil.policeapireader.model.PoliceEventModel;
 import se.harbil.policeapireader.service.PoliceEventExtendedInfoService;
@@ -12,8 +12,12 @@ import se.harbil.policeapireader.service.PoliceEventRepositoryService;
 import se.harbil.policeapireader.service.PoliceEventService;
 import se.harbil.policeapireader.util.EventUtil;
 
+/**
+ * The PoliceEventController class is responsible for periodically fetching police events from an external source,
+ * processing and saving them, and sending them to a Kafka topic for further consumption.
+ */
 @Slf4j
-@Service
+@Component
 @AllArgsConstructor
 public class PoliceEventController {
 
@@ -23,6 +27,9 @@ public class PoliceEventController {
     private final PoliceEventExtendedInfoService policeEventExtendedInfoService;
     private final EventProducer eventProducer;
 
+    /**
+     * Scheduled method to fetch and process police events at regular intervals.
+     */
     @Scheduled(initialDelay = 60000, fixedRate = 600000)
     public void fetchPoliceEvents() {
         log.info("Trying to fetch police events");

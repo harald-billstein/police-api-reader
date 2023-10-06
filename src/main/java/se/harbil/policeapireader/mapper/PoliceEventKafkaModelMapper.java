@@ -1,13 +1,24 @@
 package se.harbil.policeapireader.mapper;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import se.harbil.policeapireader.model.PoliceEventKafkaModel;
 import se.harbil.policeapireader.model.PoliceEventModel;
 
-@Service
+/**
+ * The PoliceEventKafkaModelMapper class is responsible for mapping instances of PoliceEventModel to
+ * corresponding instances of PoliceEventKafkaModel. This mapping is useful when transforming data for
+ * use with Kafka messages or other purposes.
+ */
+@Component
 public class PoliceEventKafkaModelMapper {
 
-    public PoliceEventKafkaModel map(PoliceEventModel policeEventModel) {
+    /**
+     * Maps a PoliceEventModel object to a PoliceEventKafkaModel object.
+     *
+     * @param policeEventModel The PoliceEventModel object to be mapped.
+     * @return A mapped PoliceEventKafkaModel object with data from the input PoliceEventModel.
+     */
+    public PoliceEventKafkaModel map(final PoliceEventModel policeEventModel) {
         return PoliceEventKafkaModel.builder()
             .datetime(policeEventModel.getDatetime())
             .id(policeEventModel.getId())
