@@ -12,11 +12,9 @@ import se.harbil.policeapireader.repository.PoliceEventRepository;
 @AllArgsConstructor
 public class EventUtil {
 
-
     private PoliceEventRepository policeEventRepository;
 
     public List<PoliceEventModel> checkIfThereAnyNewEvents(List<PoliceEventModel> newPoliceEvents) {
-
         return newPoliceEvents.stream()
             .filter(policeEventModel ->
                 !policeEventRepository.existsByIdAndDatetime(policeEventModel.getId(), policeEventModel.getDatetime()))

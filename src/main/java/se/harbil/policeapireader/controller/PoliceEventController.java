@@ -1,8 +1,7 @@
 package se.harbil.policeapireader.controller;
 
 import java.util.List;
-import java.util.Optional;
-
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import se.harbil.policeapireader.util.EventUtil;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class PoliceEventController {
 
     private final PoliceEventService policeEventService;
@@ -23,28 +23,15 @@ public class PoliceEventController {
     private final PoliceEventExtendedInfoService policeEventExtendedInfoService;
     private final EventProducer eventProducer;
 
-    public PoliceEventController(PoliceEventService policeEventService,
-        PoliceEventRepositoryService policeEventRepositoryService, EventUtil eventUtil,
-        PoliceEventExtendedInfoService policeEventExtendedInfoService,
-        EventProducer eventProducer) {
-        this.policeEventService = policeEventService;
-        this.policeEventRepositoryService = policeEventRepositoryService;
-        this.eventUtil = eventUtil;
-        this.policeEventExtendedInfoService = policeEventExtendedInfoService;
-        this.eventProducer = eventProducer;
-    }
-
     @Scheduled(initialDelay = 60000, fixedRate = 600000)
     public void fetchPoliceEvents() {
         log.info("Trying to fetch police events");
         try {
             List<PoliceEventModel> newPoliceEvents = policeEventService.call();
 
-            List<PoliceEventModel> unsavedPoliceEvents = eventUtil.checkIfThereAnyNewEvents(
-                newPoliceEvents);
+            List<PoliceEventModel> unsavedPoliceEvents = eventUtil.checkIfThereAnyNewEvents(newPoliceEvents);
 
-            List<PoliceEventModel> eventModelsWithExtendedInfo = policeEventExtendedInfoService.call(
-                unsavedPoliceEvents);
+            List<PoliceEventModel> eventModelsWithExtendedInfo = policeEventExtendedInfoService.call(unsavedPoliceEvents);
 
             List<PoliceEventModel> savedPoliceEvents = policeEventRepositoryService.saveAll(
                 eventModelsWithExtendedInfo);

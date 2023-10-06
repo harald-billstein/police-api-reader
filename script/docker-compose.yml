@@ -1,6 +1,52 @@
 version: '3'
 
 services:
+  traefik:
+    image: traefik:v2.9
+    container_name: traefik
+    command:
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.docker
+      - --log.level=ERROR
+      - --certificatesresolvers.myresolver.acme.dnschallenge=true
+      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=route53
+      #     - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.myresolver.acme.email=harald.billstein@harbil.se
+      - --certificatesresolvers.myresolver.acme.storage=letsencrypt/acme.json
+    ports:
+      - 80:80
+      - 443:443
+      - 8085:8080
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ../../letsencrypt:/letsencrypt
+
+  portainer:
+    image: portainer/portainer-ce:2.18.1
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    ports:
+      - 8084:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainerdata:/data
+    labels:
+      # Frontend
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`portainer.harbil.se`) || Host(`www.portainer.harbil.se`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.services.frontend.loadbalancer.server.port=9000"
+      - "traefik.http.routers.frontend.service=frontend"
+      - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+
   redpanda:
     command:
       - redpanda
@@ -99,9 +145,9 @@ services:
       twitterAccessToken: ${TWITTER_ACCESS_TOKEN}
       twitterTokenSecret: ${TWITTER_TOKEN_SECRET}
 volumes:
+  portainerdata:
+    external: true
   mongodata:
     external: true
   redpandadata:
     external: true
-
-
