@@ -155,6 +155,14 @@ services:
       slack.client.id: ${SLACK_CLIENT_ID}
       slack.redirect.url: ${SLACK_REDIRECT_URL}
       spring.mvc.view.suffix: .html
+    labels:
+      # Frontend
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`crimebot.harbil.se`) || Host(`www.crimebot.harbil.se`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.services.frontend.loadbalancer.server.port=8080"
+      - "traefik.http.routers.frontend.service=frontend"
+      - "traefik.http.routers.frontend.tls.certresolver=myresolver"
 volumes:
   portainerdata:
     external: true
