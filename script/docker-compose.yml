@@ -2,7 +2,7 @@ version: '3'
 
 services:
   traefik:
-    image: traefik:v2.9
+    image: traefik:v2.10.4
     container_name: traefik
     command:
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
@@ -11,7 +11,7 @@ services:
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --providers.docker
-      - --log.level=ERROR
+      - --log.level=INFO
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=route53
       #     - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
@@ -158,11 +158,11 @@ services:
     labels:
       # Frontend
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`crimebot.harbil.se`) || Host(`www.crimebot.harbil.se`)"
-      - "traefik.http.routers.frontend.entrypoints=websecure"
-      - "traefik.http.services.frontend.loadbalancer.server.port=8080"
-      - "traefik.http.routers.frontend.service=frontend"
-      - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+      - "traefik.http.routers.crimebot.rule=Host(`crimebot.harbil.se`) || Host(`www.crimebot.harbil.se`)"
+      - "traefik.http.routers.crimebot.entrypoints=websecure"
+      - "traefik.http.services.crimebot.loadbalancer.server.port=8080"
+      - "traefik.http.routers.crimebot.service=crimebot"
+      - "traefik.http.routers.crimebot.tls.certresolver=myresolver"
 volumes:
   portainerdata:
     external: true
