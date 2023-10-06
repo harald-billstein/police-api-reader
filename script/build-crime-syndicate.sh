@@ -43,6 +43,22 @@ git pull
 ./mvnw clean install
 docker build -f ./Dockerfile -t police-twitter:latest .
 
+cd ..
+echo -e "${green}***********************************************************"
+echo -e "*${blue} ${bold}                 police-slack-plugin                    ${green}*"
+echo -e "***********************************************************${reset}"
+if [ -d "police-slack-plugin" ]
+then
+    echo "police-slack-plugin exists."
+else
+    echo "police-slack-plugin does not exists, cloning..."
+    git clone https://github.com/harald-billstein/police-slack-plugin.git
+fi
+cd police-slack-plugin || exit
+git pull
+./mvnw clean install
+docker build -f ./Dockerfile -t police-slack-plugin:latest .
+
 docker volume create redpandadata
 docker volume create mongodata
 

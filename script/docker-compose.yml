@@ -112,7 +112,7 @@ services:
     image: police-api-reader:latest
     container_name: police-api-reader
     ports:
-      - "8082:8082"
+      - "8082:8080"
     volumes:
       - mongodata:/data/db
     depends_on:
@@ -144,6 +144,17 @@ services:
       twitterConsumerSecret: ${TWITTER_CONSUMER_SECRET}
       twitterAccessToken: ${TWITTER_ACCESS_TOKEN}
       twitterTokenSecret: ${TWITTER_TOKEN_SECRET}
+
+  police-slack-plugin:
+    image: police-slack-plugin:latest
+    container_name: police-slack-plugin
+    ports:
+      - "8086:8080"
+    environment:
+      slack.client.secret: ${SLACK_CLIENT_SECRET}
+      slack.client.id: ${SLACK_CLIENT_ID}
+      slack.redirect.url: ${SLACK_REDIRECT_URL}
+      spring.mvc.view.suffix: .html
 volumes:
   portainerdata:
     external: true
