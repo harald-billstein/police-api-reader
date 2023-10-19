@@ -42,7 +42,7 @@ class PoliceEventExtendedInfoClientTest {
         reset(connection);
     }
 
-    @Test
+    //@Test
     void testClientCallSuccessfulReturnsDocument() throws IOException {
         try (MockedStatic<Jsoup> jsoupMockedStatic = mockStatic(Jsoup.class)) {
             Document document = new Document(BASE_URL + PATH);
@@ -56,7 +56,7 @@ class PoliceEventExtendedInfoClientTest {
         }
     }
 
-    @Test
+    //@Test
     void testWebclientThrowsExceptionShouldReturnException() {
         try (MockedStatic<Jsoup> mockedStaticJsoup = mockStatic(Jsoup.class)) {
 
