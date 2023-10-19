@@ -1,6 +1,7 @@
 package se.harbil.policeapireader.controller;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,7 +31,7 @@ public class PoliceEventController {
     /**
      * Scheduled method to fetch and process police events at regular intervals.
      */
-    @Scheduled(initialDelay = 60000, fixedRate = 600000)
+    @Scheduled(initialDelay = 1, fixedRate = 1, timeUnit = TimeUnit.MINUTES)
     public void fetchPoliceEvents() {
         log.info("Trying to fetch police events");
         try {

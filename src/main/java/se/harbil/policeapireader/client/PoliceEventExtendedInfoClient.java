@@ -1,6 +1,13 @@
 package se.harbil.policeapireader.client;
 
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
@@ -21,6 +28,30 @@ public class PoliceEventExtendedInfoClient {
      * @throws IOException If there is an error while making the HTTP request or parsing the response.
      */
     public Document call(final String path) throws IOException {
-        return Jsoup.connect(path).get();
+        return Jsoup.connect(path).sslSocketFactory(socketFactory()).get();
+    }
+
+    // TODO temp fix for polisen.se, they have a degraded cert
+    static private SSLSocketFactory socketFactory() {
+        TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            }
+
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            }
+        }};
+
+        try {
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            return sslContext.getSocketFactory();
+
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            throw new RuntimeException("Failed to create a SSL socket factory", e);
+        }
     }
 }
