@@ -17,13 +17,4 @@ class PoliceEventClientConfigTest {
 
         assertNotNull(policeEventClient);
     }
-
-    @Test
-    void createPoliceEventExtendedInfoClient() {
-        PoliceEventClientConfig config = new PoliceEventClientConfig(API_URL, EXTRA_INFO_URL);
-
-        WebClient policeExtraIndoClient = config.createPoliceEventExtendedInfoClient();
-
-        assertNotNull(policeExtraIndoClient);
-    }
 }

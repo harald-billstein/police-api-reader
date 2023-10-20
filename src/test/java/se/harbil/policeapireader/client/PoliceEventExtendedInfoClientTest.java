@@ -26,7 +26,6 @@ import static se.harbil.policeapireader.client.PoliceEventExtendedInfoClientTest
 @ExtendWith({MockitoExtension.class})
 class PoliceEventExtendedInfoClientTest {
 
-
     @Mock
     private Connection connection;
 
@@ -42,13 +41,14 @@ class PoliceEventExtendedInfoClientTest {
         reset(connection);
     }
 
-    //@Test
+    @Test
     void testClientCallSuccessfulReturnsDocument() throws IOException {
         try (MockedStatic<Jsoup> jsoupMockedStatic = mockStatic(Jsoup.class)) {
             Document document = new Document(BASE_URL + PATH);
 
-            when(connection.get()).thenReturn(document);
             jsoupMockedStatic.when(() -> Jsoup.connect(PATH)).thenReturn(connection);
+            jsoupMockedStatic.when(() -> Jsoup.connect(PATH).sslSocketFactory(any())).thenReturn(connection);
+            when(connection.get()).thenReturn(document);
 
             Document doc = policeEventExtendedInfoClient.call(PATH);
 
@@ -56,7 +56,7 @@ class PoliceEventExtendedInfoClientTest {
         }
     }
 
-    //@Test
+    @Test
     void testWebclientThrowsExceptionShouldReturnException() {
         try (MockedStatic<Jsoup> mockedStaticJsoup = mockStatic(Jsoup.class)) {
 

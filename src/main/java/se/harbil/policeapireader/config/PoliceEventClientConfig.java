@@ -38,28 +38,26 @@ public class PoliceEventClientConfig {
     @SneakyThrows
     public WebClient createPoliceEventClient() {
         return WebClient.builder()
-            .clientConnector(new ReactorClientHttpConnector(getHttpClient()))
+            .clientConnector(new ReactorClientHttpConnector(getInsecureHttpClient()))
             .baseUrl(apiUrl)
             .build();
     }
 
     /**
-     * Creates and configures a WebClient bean for interacting with the extended information API related to police events.
+     * Returns an HttpClient configured to bypass SSL certificate verification for a specific remote API.
      *
-     * @return An instance of WebClient configured with the base URL for the extended information API.
+     * <p>This method is used as a temporary workaround for situations where the remote API is experiencing issues
+     * with its SSL certificate. InsecureTrustManagerFactory is used to trust all certificates, effectively disabling
+     * SSL certificate validation. While this allows the client to connect to the API without verifying the certificate's
+     * authenticity, it should be used with caution, as it may expose the client to potential security risks.
+     *
+     * <p>It is recommended to use this method only as a temporary solution until the remote API provider fixes the
+     * certificate issue. Once the certificate issue is resolved, you should revert to a more secure SSL configuration.
+     *
+     * @return An HttpClient configured to bypass SSL certificate verification.
+     * @throws SSLException if an error occurs while building the SSL context.
      */
-    @Bean
-    @Qualifier("policeEventExtendedInfoClient")
-    @SneakyThrows
-    public WebClient createPoliceEventExtendedInfoClient() {
-        return WebClient.builder()
-            .clientConnector(new ReactorClientHttpConnector(getHttpClient()))
-            .baseUrl(extendedInfoBaseUrl)
-            .build();
-    }
-
-    // TODO polisen.se cert Grade B after update. REMOVE when they fix
-    private HttpClient getHttpClient() throws SSLException {
+    private HttpClient getInsecureHttpClient() throws SSLException {
         SslContext sslContext = SslContextBuilder
             .forClient()
             .trustManager(InsecureTrustManagerFactory.INSTANCE)

@@ -31,8 +31,21 @@ public class PoliceEventExtendedInfoClient {
         return Jsoup.connect(path).sslSocketFactory(socketFactory()).get();
     }
 
-    // TODO temp fix for polisen.se, they have a degraded cert
-    static private SSLSocketFactory socketFactory() {
+    /**
+     * Returns an SSLSocketFactory configured to bypass SSL certificate verification for a specific remote domain.
+     *
+     * <p>This method is used as a temporary workaround for situations where the remote domain is experiencing issues
+     * with its SSL certificate. It employs a custom TrustManager that trusts all certificates, effectively disabling
+     * SSL certificate validation. While this allows the client to establish SSL connections without verifying the certificate's
+     * authenticity, it should be used with caution, as it may expose the client to potential security risks.
+     *
+     * <p>It is recommended to use this method only as a temporary solution until the remote domain resolves the certificate issue.
+     * Once the certificate issue is fixed, it is advisable to revert to a more secure SSL configuration.
+     *
+     * @return An SSLSocketFactory configured to bypass SSL certificate verification for a specific remote domain.
+     * @throws RuntimeException if an error occurs while creating the SSL socket factory.
+     */
+    private SSLSocketFactory socketFactory() {
         TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return new X509Certificate[0];
