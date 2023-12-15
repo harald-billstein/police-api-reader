@@ -2,7 +2,7 @@ version: '3'
 
 services:
   traefik:
-    image: traefik:v2.10.4
+    image: traefik:v2.10.7
     container_name: traefik
     command:
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
@@ -29,7 +29,7 @@ services:
       - ../../letsencrypt:/letsencrypt
 
   portainer:
-    image: portainer/portainer-ce:2.19.1
+    image: portainer/portainer-ce:2.19.4
     container_name: portainer
     command: -H unix:///var/run/docker.sock
     restart: always
