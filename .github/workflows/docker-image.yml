@@ -14,5 +14,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Set up JDK 21
+      uses: action/setup-java@v1
+      with:
+        java-version: 21
+    - name: Build with Maven
+      run: ./mvnw clean install
     - name: Build the Docker image
       run: docker build . --file Dockerfile --police-api-reader:$(date +%s)
