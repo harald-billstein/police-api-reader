@@ -1,3 +1,3 @@
-FROM registry.access.redhat.com/ubi8/openjdk-17:1.12-1.1651233093
+FROM registry.access.redhat.com/ubi9/openjdk-21:1.17-2
 
 COPY target/*jar /deployments/
