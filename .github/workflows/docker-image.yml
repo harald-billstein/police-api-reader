@@ -14,12 +14,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: 21
         distribution: adopt
+
     - name: Build with Maven
       run: ./mvnw clean install
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --police-api-reader:$(date +%s)
+
+    - name: Build and push the Docker image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: haraldbillstein/police-api-reader
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
