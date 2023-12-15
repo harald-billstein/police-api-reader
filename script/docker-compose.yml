@@ -140,10 +140,10 @@ services:
       SPRING_KAFKA_BOOTSTRAP-SERVERS: "redpanda:29092"
       SPRING_DATA_MONGODB_URI: ${POLICE_TWITTER_SPRING_DATA_MONGODB_URI}
       SPRING.DATA.MONGODB.DATABASE: twitter-bot
-      twitterConsumerKey: ${TWITTER_CONSUMER_KEY}
-      twitterConsumerSecret: ${TWITTER_CONSUMER_SECRET}
-      twitterAccessToken: ${TWITTER_ACCESS_TOKEN}
-      twitterTokenSecret: ${TWITTER_TOKEN_SECRET}
+      app.twitter.authentication.consumer-key: ${APP_TWITTER_AUTHENTICATION_CONSUMER_KEY}
+      app.twitter.authentication.consumer-secret: ${APP_TWITTER_AUTHENTICATION_CONSUMER_SECRET}
+      app.twitter.authentication.token: ${APP_TWITTER_AUTHENTICATION_TOKEN}
+      app.twitter.authentication.token-secret: ${APP_TWITTER_AUTHENTICATION_TOKEN_SECRET}
 
   police-slack-plugin:
     image: police-slack-plugin:latest
