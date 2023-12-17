@@ -1,11 +1,13 @@
 package se.harbil.policeapireader.client;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
 import se.harbil.policeapireader.model.PoliceEventResponse;
 
 /**
@@ -30,6 +32,7 @@ public class PoliceEventClient {
         PoliceEventResponse[] response = webClient.get()
             .retrieve()
             .bodyToMono(PoliceEventResponse[].class)
+            .retryWhen(Retry.backoff(3, Duration.ofSeconds(2)))
             .block();
         return response == null ? null : Arrays.asList(response);
     }
