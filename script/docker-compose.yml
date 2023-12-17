@@ -109,7 +109,7 @@ services:
     restart: unless-stopped
 
   police-api-reader:
-    image: police-api-reader:latest
+    image: haraldbillstein/police-api-reader:latest
     container_name: police-api-reader
     ports:
       - "8082:8080"
@@ -127,7 +127,7 @@ services:
       KAFKA_EVENT_TOPIC: police-event
 
   police-twitter:
-    image: police-twitter:latest
+    image: haraldbillstein/police-twitter:latest
     container_name: police-twitter
     ports:
       - "8083:8083"
@@ -146,7 +146,7 @@ services:
       app.twitter.authentication.token-secret: ${APP_TWITTER_AUTHENTICATION_TOKEN_SECRET}
 
   police-slack-plugin:
-    image: police-slack-plugin:latest
+    image: haraldbillstein/police-slack-plugin:latest
     container_name: police-slack-plugin
     ports:
       - "8086:8080"
